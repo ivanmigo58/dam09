@@ -117,12 +117,13 @@ public class Main {
 
     public static void ej2() {
         KeyPair keyPair= Xifrar.randomGenerate(1024);
-        String texto = "Texto de prueba";
+        byte[] texto = "Texto de prueba".getBytes();
         // Encripto el texto pasado
-        byte[][] textoEncriptado = Xifrar.encryptWrappedData(texto.getBytes(),keyPair.getPublic());
+        byte[][] textoEncriptado = Xifrar.encryptWrappedData(texto,keyPair.getPublic());
 
         // Desencripto texto
-        byte[][] textoDesencriptado = Xifrar.dencryptWrappedData(textoEncriptado ,keyPair.getPublic());
+        byte[] textoDesencriptado = Xifrar.dencryptWrappedData(textoEncriptado,keyPair.getPrivate());
+        System.out.println(new String(textoDesencriptado));
 
 
     }

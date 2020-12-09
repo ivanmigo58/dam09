@@ -140,23 +140,22 @@ public class Xifrar {
         return encWrappedData;
     }
 
-    public static byte[][] dencryptWrappedData(byte[] data, PublicKey pub) {
-        byte[][] encWrappedData = new byte[2][];
+    public static byte[] dencryptWrappedData(byte[][] data, PrivateKey priv) {
+        byte[] mensajeDescrifrado = new byte[0];
         try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            kgen.init(128);
-            SecretKey sKey = kgen.generateKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, sKey);
-            byte[] encMsg = cipher.doFinal(data);
-            cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            cipher.init(Cipher.UNWRAP_MODE, pub);
-            byte[] encKey = cipher.wrap(sKey);
-            encWrappedData[0] = encMsg;
-            encWrappedData[1] = encKey;
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            //  Desencripto la clave guardada en data[1] con la clave privada
+            cipher.init(Cipher.UNWRAP_MODE, priv);
+            SecretKey secretkey = (SecretKey) cipher.unwrap(data[1], "AES", Cipher.SECRET_KEY);
+            // Creo un nuevo Chiper para desencriptar el mensaje con la clave
+            Cipher cipher2 = Cipher.getInstance("AES");
+            cipher2.init(Cipher.DECRYPT_MODE, secretkey);
+            // Obtengo el mensaje desencriptado
+            mensajeDescrifrado = cipher2.doFinal(data[0]);
         } catch (Exception  ex) {
-            System.err.println("Ha succeït un error xifrant: " + ex);
+            System.err.println("Ha succeït un error desxifrant: " + ex);
         }
-        return encWrappedData;
+        return mensajeDescrifrado;
+
     }
 }
