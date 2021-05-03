@@ -1,11 +1,22 @@
 package com.company.udp;
 
 public class Velocitat {
-    public Velocitat(int velocitat) {
+    int vel,max;
+    public Velocitat(int max) {
+        this.max = max;
+    }
 
+    public int getVel() {
+        return vel;
+    }
+
+    public void setVel(int vel) {
+        this.vel = vel;
     }
 
     public int agafaVelocitat() {
-        return 0;
+        setVel((int)(Math.random()*max)+1);
+        return getVel();
     }
+
 }

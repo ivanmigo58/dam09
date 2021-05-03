@@ -7,6 +7,8 @@ import java.net.MulticastSocket;
 import java.nio.ByteBuffer;
 
 public class SrvVelocitats {
+    public static int multiPort = 5557;
+    public static String ipMulticast = "224.0.0.58";
     /* Servidor Multicast que proporciona la velocitat simulada d'un cos */
 
     MulticastSocket socket;
@@ -29,6 +31,7 @@ public class SrvVelocitats {
         while(continueRunning){
             sendingData = ByteBuffer.allocate(4).putInt(simulator.agafaVelocitat()).array();
             packet = new DatagramPacket(sendingData, sendingData.length,multicastIP, port);
+            System.out.println(ByteBuffer.wrap(packet.getData()).getInt());
             socket.send(packet);
 
             try {
@@ -45,7 +48,7 @@ public class SrvVelocitats {
     public static void main(String[] args) throws IOException {
         //Canvieu la X.X per un número per formar un IP.
         //Que no sigui la mateixa que la d'un altre company
-        SrvVelocitats srvVel = new SrvVelocitats(5557, "224.0.0.58");
+        SrvVelocitats srvVel = new SrvVelocitats(multiPort, ipMulticast);
         srvVel.runServer();
         System.out.println("Parat!");
 
