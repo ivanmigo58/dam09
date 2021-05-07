@@ -9,6 +9,7 @@ public class Llista implements Serializable {
     private List<Integer> numberList;
 
     public Llista(String nom, List<Integer> numberList) {
+        this.nom = nom;
         this.numberList = numberList;
     }
 
@@ -27,4 +28,13 @@ public class Llista implements Serializable {
     public void setNumberList(List<Integer> numberList) {
         this.numberList = numberList;
     }
+
+    @Override
+    public String toString() {
+        return "Llista{" +
+                "nom='" + nom + '\'' +
+                ", numberList=" + numberList +
+                '}';
+    }
+
 }
